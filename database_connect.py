@@ -28,8 +28,14 @@ def find_all(col):
         list.append(item)
     return list
 
-def
+def update_one(col,myquery,newvalues):
+    db[col].update_one(myquery, newvalues)
 
+def delete_one(col,myquery):
+    db[col].delete_one(myquery)
+
+def delete_many(col,myquery):
+    db[col].delete_many(myquery)
 if __name__ == '__main__':
     print(collection)
     data = {'name': 'hello', 'url': 'hello'}

@@ -7,7 +7,7 @@ import json
 import time
 
 import requests
-import database_connect
+import database_connect as db
 
 # 首先我们写好抓取网页的函数
 
@@ -83,10 +83,10 @@ def out_2_json(dict):
                 print("×")
 
 def out_2_database(dict):
+    for comment in dict:
+        db.insert_one('bilibili',comment)
 
-
-if __name__ == '__main__':
-    oid = '937580955'
+def get_bili_data(oid):
     e = 0
     page = 1
     while e == 0:
@@ -95,7 +95,8 @@ if __name__ == '__main__':
             content = get_content(url)
             if(content!=[]):
                 print("正在保存第", page,"页")
-                out_2_json(content)
+                # out_2_json(content)
+                out_2_database(content)
                 page = page + 1
                 # 为了降低被封ip的风险，每爬20页便歇5秒。
                 if page % 10 == 0:
@@ -104,4 +105,9 @@ if __name__ == '__main__':
                 print("保存完成，共", page,"页")
                 break
         except:
+            print("保存页面出错")
             e = 1
+
+if __name__ == '__main__':
+    oid = '937580955'
+    get_bili_data(oid)
